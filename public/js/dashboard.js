@@ -25,28 +25,9 @@ const editButtonHandler = async (event) => {
   if (event.target.hasAttribute('data-id')) {
     const id = event.target.getAttribute('data-id');
 
-    // const response = await fetch(`/api/posts/${id}`, {
-    //   method: 'DELETE',
-    // });
     document.location.replace(`/post/edit/${id}`);
   }
 };
-
-// const editButtonHandler = async (event) => {
-//   if (event.target.hasAttribute('data-id')) {
-//     const id = event.target.getAttribute('data-id');
-
-//     const response = await fetch(`/api/posts/${id}`, {
-//       method: 'DELETE',
-//     });
-
-//     if (response.ok) {
-//       document.location.replace('/dashboard');
-//     } else {
-//       alert('Failed to delete post');
-//     }
-//   }
-// };
 
 const delButtonHandler = async (event) => {
   if (event.target.hasAttribute('data-id')) {
@@ -68,6 +49,13 @@ document
   .querySelector('.new-post-form')
   .addEventListener('submit', newFormHandler);
 
-document.querySelector('.delete').addEventListener('click', delButtonHandler);
+const delButtons = document.querySelectorAll('.delete');
+const editButtons = document.querySelectorAll('.edit');
 
-document.querySelector('.edit').addEventListener('click', editButtonHandler);
+delButtons.forEach((button) => {
+  button.addEventListener('click', delButtonHandler);
+});
+
+editButtons.forEach((button) => {
+  button.addEventListener('click', editButtonHandler);
+});
