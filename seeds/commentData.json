@@ -11,4 +11,9 @@
     "description": "Pretty good",
     "post_id": 2
   }
+  ,
+  {
+    "description": "Pretty bad",
+    "post_id": 3
+  }
 ]
