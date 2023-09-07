@@ -25,6 +25,7 @@ Comment.init(
         model: 'user',
         key: 'id',
       },
+    },
     post_id: {
       type: DataTypes.INTEGER,
       references: {
@@ -33,6 +34,7 @@ Comment.init(
       },
     },
   },
+
   {
     sequelize,
     timestamps: false,
