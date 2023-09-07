@@ -15,7 +15,21 @@ router.post('/', withAuth, async (req, res) => {
   }
 });
 
-router.get('/:id', async (req, res) => {
+// router.put('/:id', withAuth, async (req, res) => {
+//   try {
+//     const updatePost = await Post.findByPk(req.params.id, {
+//       where: {
+//         req.body
+//       }
+//     })
+
+//     res.status(200).json(newPost);
+//   } catch (err) {
+//     res.status(400).json(err);
+//   }
+// });
+
+router.get('/:id', withAuth, async (req, res) => {
   try {
     const postData = await Post.findByPk(req.params.id);
     if (!postData) {
