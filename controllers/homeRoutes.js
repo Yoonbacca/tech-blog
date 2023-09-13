@@ -48,28 +48,17 @@ router.get('/post/:id', async (req, res) => {
       include: [
         {
           model: User,
-          attributes: ['name'],
+        },
+        {
+          model: Comment,
+          include: [User],
         },
       ],
     });
 
     const post = postData.get({ plain: true });
-
-    const commentData = await Comment.findAll({
-      where: { post_id: req.params.id },
-      include: [
-        {
-          model: User,
-          attributes: ['name'],
-        },
-      ],
-    });
-
-    const comments = commentData.map((comment) => comment.get({ plain: true }));
-
     res.render('post', {
       ...post,
-      ...comments,
       logged_in: req.session.logged_in,
     });
   } catch (err) {
@@ -79,6 +68,13 @@ router.get('/post/:id', async (req, res) => {
 
 router.get('/comment/:id', async (req, res) => {
   try {
+    const userData = await User.findByPk(req.session.user_id, {
+      attributes: { exclude: ['password'] },
+      include: [{ model: Post }],
+    });
+
+    const user = userData.get({ plain: true });
+
     const commentData = await Comment.findByPk(req.params.id, {
       include: [
         {
@@ -87,6 +83,7 @@ router.get('/comment/:id', async (req, res) => {
         },
       ],
     });
+
     if (!commentData) {
       return res.status(404).json({ message: 'Comment not found' });
     }
@@ -94,6 +91,7 @@ router.get('/comment/:id', async (req, res) => {
     const comment = commentData.get({ plain: true });
     res.render('comment', {
       ...comment,
+      ...user,
       logged_in: req.session.logged_in,
     });
   } catch (err) {

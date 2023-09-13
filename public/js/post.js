@@ -1,21 +1,15 @@
 const newFormHandler = async (event) => {
-  event.preventDefault();
-
-  const name = document.querySelector('#comment-name').value.trim();
   const description = document.querySelector('#comment-desc').value.trim();
-
-  if (name && description) {
+  const post_id = window.location.pathname.split('/').pop();
+  if (description) {
     const response = await fetch(`/api/comments`, {
       method: 'POST',
-      body: JSON.stringify({ description }),
+      body: JSON.stringify({ description, post_id }),
       headers: {
         'Content-Type': 'application/json',
       },
     });
-
-    if (response.ok) {
-      document.location.replace('/dashboard');
-    } else {
+    if (!response.ok) {
       alert('Failed to create comment');
     }
   }
